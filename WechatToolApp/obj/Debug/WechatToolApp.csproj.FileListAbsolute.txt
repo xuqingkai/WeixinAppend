@@ -20,3 +20,13 @@ E:\workspace\csharp\wechatDock\WechatToolApp\obj\Debug\WechatToolApp.csproj.Gene
 E:\workspace\csharp\wechatDock\WechatToolApp\obj\Debug\WechatToolApp.csproj.CoreCompileInputs.cache
 E:\workspace\csharp\wechatDock\WechatToolApp\obj\Debug\WechatToolApp.exe
 E:\workspace\csharp\wechatDock\WechatToolApp\obj\Debug\WechatToolApp.pdb
+E:\xuqingkai\project\weixinduokai\WechatToolApp\bin\Debug\WechatToolApp.exe.config
+E:\xuqingkai\project\weixinduokai\WechatToolApp\bin\Debug\WechatToolApp.exe
+E:\xuqingkai\project\weixinduokai\WechatToolApp\bin\Debug\WechatToolApp.pdb
+E:\xuqingkai\project\weixinduokai\WechatToolApp\obj\Debug\WechatToolApp.csproj.AssemblyReference.cache
+E:\xuqingkai\project\weixinduokai\WechatToolApp\obj\Debug\WechatToolApp.App.MainForm.resources
+E:\xuqingkai\project\weixinduokai\WechatToolApp\obj\Debug\WechatToolApp.Properties.Resources.resources
+E:\xuqingkai\project\weixinduokai\WechatToolApp\obj\Debug\WechatToolApp.csproj.GenerateResource.cache
+E:\xuqingkai\project\weixinduokai\WechatToolApp\obj\Debug\WechatToolApp.csproj.CoreCompileInputs.cache
+E:\xuqingkai\project\weixinduokai\WechatToolApp\obj\Debug\WechatToolApp.exe
+E:\xuqingkai\project\weixinduokai\WechatToolApp\obj\Debug\WechatToolApp.pdb

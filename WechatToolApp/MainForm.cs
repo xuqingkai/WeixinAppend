@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -45,6 +46,7 @@ namespace WechatToolApp.App
         public MainForm()
         {
             InitializeComponent();
+            numericUpDown.Value = Math.Abs(Convert.ToInt32(ConfigurationManager.AppSettings["WeixinNumber"]));
         }
 
         private int appNum = 0;
@@ -83,6 +85,10 @@ namespace WechatToolApp.App
         }
 
         private void btnStartTimer_Click(object sender, EventArgs e)
+        {
+            btnStartTimerClick();
+        }
+        private void btnStartTimerClick()
         {
             clearThreadPool();
 
@@ -144,6 +150,7 @@ namespace WechatToolApp.App
             startNumTxt.Text = "启动数：" + processes.Length;
             if (processes.Length <= 0)
             {
+                btnStartTimer.Enabled = true;
                 return;
             }
 
@@ -164,6 +171,7 @@ namespace WechatToolApp.App
                     wechatProcesses.Add(new WechatProcess(p));
                 }
             }
+
             // 关闭所有存在互斥句柄的进程
             int num = 0;
             for (int i = wechatProcesses.Count - 1; i >= 0; i--)
@@ -178,7 +186,6 @@ namespace WechatToolApp.App
                     {
                         checkAppThreads();
                     }
-
                 }
                 else
                 {
@@ -191,6 +198,17 @@ namespace WechatToolApp.App
                     {
                         num++;
                     }
+                }
+            }
+            if (appNum <= wechatProcesses.Count) 
+            {
+                if (appNum > 2)
+                {
+                    btnSortClick();
+                }
+                else if (appNum > 0)
+                {
+                    Environment.Exit(0);
                 }
             }
         }
@@ -211,10 +229,15 @@ namespace WechatToolApp.App
         {
             mutexHandleCloseTimer.Start();
             btnStopTimer.Enabled = true;
+            btnStartTimerClick();
         }
 
         private bool isSortRunning = false;
         private void btnSort_Click(object sender, EventArgs e)
+        {
+            btnSortClick();
+        }
+        private void btnSortClick()
         {
             Process[] processes1 = Process.GetProcessesByName(WECHAT_NAME);
             if (processes1.Length == 0)
@@ -300,10 +323,11 @@ namespace WechatToolApp.App
                         if (flag)
                         {
                             isSortRunning = false;
-                            Action<bool> AsyncUIDelegate = delegate (bool enable ) { 
+                            Action<bool> AsyncUIDelegate = delegate (bool enable) {
                                 btnSort.Enabled = enable;
                             };
                             btnSort.Invoke(AsyncUIDelegate, new object[] { true });
+                            Environment.Exit(0);
                             break;
                         }
                     }

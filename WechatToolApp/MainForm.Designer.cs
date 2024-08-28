@@ -49,24 +49,19 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(12, 28);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(9, 22);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(178, 17);
+            this.label2.Size = new System.Drawing.Size(63, 14);
             this.label2.TabIndex = 10;
-            this.label2.Text = "请选择启动微信数量：";
+            this.label2.Text = "启动数：";
             // 
             // numericUpDown
             // 
             this.numericUpDown.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown.Location = new System.Drawing.Point(13, 59);
-            this.numericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.numericUpDown.Location = new System.Drawing.Point(73, 17);
+            this.numericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numericUpDown.Name = "numericUpDown";
-            this.numericUpDown.Size = new System.Drawing.Size(152, 30);
+            this.numericUpDown.Size = new System.Drawing.Size(53, 26);
             this.numericUpDown.TabIndex = 1;
             this.numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDown.Value = new decimal(new int[] {
@@ -78,21 +73,19 @@
             // btnStopTimer
             // 
             this.btnStopTimer.Enabled = false;
-            this.btnStopTimer.Location = new System.Drawing.Point(15, 114);
-            this.btnStopTimer.Margin = new System.Windows.Forms.Padding(4);
+            this.btnStopTimer.Location = new System.Drawing.Point(256, 11);
             this.btnStopTimer.Name = "btnStopTimer";
-            this.btnStopTimer.Size = new System.Drawing.Size(152, 46);
+            this.btnStopTimer.Size = new System.Drawing.Size(38, 32);
             this.btnStopTimer.TabIndex = 102;
-            this.btnStopTimer.Text = "关闭所有";
+            this.btnStopTimer.Text = "关闭";
             this.btnStopTimer.UseVisualStyleBackColor = true;
             this.btnStopTimer.Click += new System.EventHandler(this.btnStopTimer_Click);
             // 
             // btnStartTimer
             // 
-            this.btnStartTimer.Location = new System.Drawing.Point(216, 114);
-            this.btnStartTimer.Margin = new System.Windows.Forms.Padding(4);
+            this.btnStartTimer.Location = new System.Drawing.Point(6, 47);
             this.btnStartTimer.Name = "btnStartTimer";
-            this.btnStartTimer.Size = new System.Drawing.Size(152, 46);
+            this.btnStartTimer.Size = new System.Drawing.Size(288, 118);
             this.btnStartTimer.TabIndex = 1000;
             this.btnStartTimer.Text = "启 动";
             this.btnStartTimer.UseVisualStyleBackColor = true;
@@ -100,12 +93,11 @@
             // 
             // btnSort
             // 
-            this.btnSort.Location = new System.Drawing.Point(216, 43);
-            this.btnSort.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSort.Location = new System.Drawing.Point(208, 11);
             this.btnSort.Name = "btnSort";
-            this.btnSort.Size = new System.Drawing.Size(152, 46);
+            this.btnSort.Size = new System.Drawing.Size(42, 31);
             this.btnSort.TabIndex = 100;
-            this.btnSort.Text = "窗口排序";
+            this.btnSort.Text = "排序";
             this.btnSort.UseVisualStyleBackColor = true;
             this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
             // 
@@ -114,18 +106,18 @@
             this.startNumTxt.AutoSize = true;
             this.startNumTxt.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.startNumTxt.ForeColor = System.Drawing.Color.Red;
-            this.startNumTxt.Location = new System.Drawing.Point(266, 14);
-            this.startNumTxt.Margin = new System.Windows.Forms.Padding(4, 5, 30, 0);
+            this.startNumTxt.Location = new System.Drawing.Point(131, 22);
+            this.startNumTxt.Margin = new System.Windows.Forms.Padding(3, 4, 22, 0);
             this.startNumTxt.Name = "startNumTxt";
-            this.startNumTxt.Size = new System.Drawing.Size(76, 17);
+            this.startNumTxt.Size = new System.Drawing.Size(63, 14);
             this.startNumTxt.TabIndex = 104;
-            this.startNumTxt.Text = "启动数：";
+            this.startNumTxt.Text = "已启动：";
             // 
-            // FormMultiInstance
+            // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(381, 182);
+            this.ClientSize = new System.Drawing.Size(300, 171);
             this.Controls.Add(this.startNumTxt);
             this.Controls.Add(this.btnSort);
             this.Controls.Add(this.label2);
@@ -134,11 +126,10 @@
             this.Controls.Add(this.btnStartTimer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.Name = "FormMultiInstance";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "微信多开";
+            this.Text = "微信多开 wxjishu@吾爱破解论坛";
             this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMultiInstance_FormClosed);
             this.Load += new System.EventHandler(this.FormMultiInstance_Load);
