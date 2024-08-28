@@ -30,123 +30,47 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.mutexHandleCloseTimer = new System.Windows.Forms.Timer(this.components);
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.btnStopTimer = new System.Windows.Forms.Button();
-            this.btnStartTimer = new System.Windows.Forms.Button();
-            this.btnSort = new System.Windows.Forms.Button();
-            this.startNumTxt = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).BeginInit();
+            this.timerWeixinAppend = new System.Windows.Forms.Timer(this.components);
+            this.buttonStartWeixin = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // mutexHandleCloseTimer
+            // timerWeixinAppend
             // 
-            this.mutexHandleCloseTimer.Interval = 500;
-            this.mutexHandleCloseTimer.Tick += new System.EventHandler(this.mutexHandleCloseTimer_Tick);
+            this.timerWeixinAppend.Interval = 500;
+            this.timerWeixinAppend.Tick += new System.EventHandler(this.mutexHandleCloseTimer_Tick);
             // 
-            // label2
+            // buttonStartWeixin
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(9, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 14);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "启动数：";
-            // 
-            // numericUpDown
-            // 
-            this.numericUpDown.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown.Location = new System.Drawing.Point(73, 17);
-            this.numericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.numericUpDown.Name = "numericUpDown";
-            this.numericUpDown.Size = new System.Drawing.Size(53, 26);
-            this.numericUpDown.TabIndex = 1;
-            this.numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // btnStopTimer
-            // 
-            this.btnStopTimer.Enabled = false;
-            this.btnStopTimer.Location = new System.Drawing.Point(256, 11);
-            this.btnStopTimer.Name = "btnStopTimer";
-            this.btnStopTimer.Size = new System.Drawing.Size(38, 32);
-            this.btnStopTimer.TabIndex = 102;
-            this.btnStopTimer.Text = "关闭";
-            this.btnStopTimer.UseVisualStyleBackColor = true;
-            this.btnStopTimer.Click += new System.EventHandler(this.btnStopTimer_Click);
-            // 
-            // btnStartTimer
-            // 
-            this.btnStartTimer.Location = new System.Drawing.Point(6, 47);
-            this.btnStartTimer.Name = "btnStartTimer";
-            this.btnStartTimer.Size = new System.Drawing.Size(288, 118);
-            this.btnStartTimer.TabIndex = 1000;
-            this.btnStartTimer.Text = "启 动";
-            this.btnStartTimer.UseVisualStyleBackColor = true;
-            this.btnStartTimer.Click += new System.EventHandler(this.btnStartTimer_Click);
-            // 
-            // btnSort
-            // 
-            this.btnSort.Location = new System.Drawing.Point(208, 11);
-            this.btnSort.Name = "btnSort";
-            this.btnSort.Size = new System.Drawing.Size(42, 31);
-            this.btnSort.TabIndex = 100;
-            this.btnSort.Text = "排序";
-            this.btnSort.UseVisualStyleBackColor = true;
-            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
-            // 
-            // startNumTxt
-            // 
-            this.startNumTxt.AutoSize = true;
-            this.startNumTxt.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.startNumTxt.ForeColor = System.Drawing.Color.Red;
-            this.startNumTxt.Location = new System.Drawing.Point(131, 22);
-            this.startNumTxt.Margin = new System.Windows.Forms.Padding(3, 4, 22, 0);
-            this.startNumTxt.Name = "startNumTxt";
-            this.startNumTxt.Size = new System.Drawing.Size(63, 14);
-            this.startNumTxt.TabIndex = 104;
-            this.startNumTxt.Text = "已启动：";
+            this.buttonStartWeixin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonStartWeixin.Location = new System.Drawing.Point(0, 0);
+            this.buttonStartWeixin.Name = "buttonStartWeixin";
+            this.buttonStartWeixin.Size = new System.Drawing.Size(304, 141);
+            this.buttonStartWeixin.TabIndex = 1000;
+            this.buttonStartWeixin.Text = "启 动(0/0)";
+            this.buttonStartWeixin.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 171);
-            this.Controls.Add(this.startNumTxt);
-            this.Controls.Add(this.btnSort);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.numericUpDown);
-            this.Controls.Add(this.btnStopTimer);
-            this.Controls.Add(this.btnStartTimer);
+            this.ClientSize = new System.Drawing.Size(304, 141);
+            this.Controls.Add(this.buttonStartWeixin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "微信多开 wxjishu@吾爱破解论坛";
+            this.Text = "微信加开 wxjishu@吾爱破解论坛";
             this.TopMost = true;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMultiInstance_FormClosed);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMultiInstance_Close);
             this.Load += new System.EventHandler(this.FormMultiInstance_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Timer mutexHandleCloseTimer;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown;
-        private System.Windows.Forms.Button btnStopTimer;
-        private System.Windows.Forms.Button btnStartTimer;
-        private System.Windows.Forms.Button btnSort;
-        private System.Windows.Forms.Label startNumTxt;
+        private System.Windows.Forms.Timer timerWeixinAppend;
+        private System.Windows.Forms.Button buttonStartWeixin;
     }
 }
 

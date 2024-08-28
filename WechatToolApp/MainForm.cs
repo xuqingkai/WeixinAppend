@@ -16,6 +16,7 @@ namespace WechatToolApp.App
     public partial class MainForm : Form
     {
         const string WECHAT_NAME = "WeChat";
+
         const string WECHAT_EXE_NAME = "WeChat.exe";
 
         [DllImport("user32.dll")]
@@ -31,14 +32,11 @@ namespace WechatToolApp.App
             public int Bottom;                        //最下坐标
         }
 
-
         [DllImport("kernel32.dll")]
         public static extern int WinExec(string exeName, int operType);
 
-
         [DllImportAttribute("user32.dll", EntryPoint = "MoveWindow")]
         public static extern bool MoveWindow(System.IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
 
         [DllImport("user32.dll")]
         private static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx, int cy, uint Flags);
@@ -46,65 +44,27 @@ namespace WechatToolApp.App
         public MainForm()
         {
             InitializeComponent();
-            numericUpDown.Value = Math.Abs(Convert.ToInt32(ConfigurationManager.AppSettings["WeixinNumber"]));
         }
 
-        private int appNum = 0;
-        List<ProcessStartInfo> appThreads = new List<ProcessStartInfo>();
+        private int weixinNumber = 0;
 
-        private void checkAppThreads()
+        private void FormMultiInstance_Load(object sender, EventArgs e)
         {
-            if (appThreads.Count > 0)
-            {
-                ProcessStartInfo thread = appThreads[0];
-                new Thread(() =>
-                {
-                    Process.Start(thread);
-                    appThreads.RemoveAt(0);
-                }).Start();
-            }
+            weixinNumber = Math.Abs(Convert.ToInt32(ConfigurationManager.AppSettings["WeixinNumber"]));
+            buttonStartWeixin.Text = "启动(0/" + weixinNumber + ")";
+            timerWeixinAppend.Start();
+            startWeixin();
         }
 
-        private List<Thread> threadsPool = new List<Thread>();
-
-        private void clearThreadPool()
+        private void FormMultiInstance_Close(object sender, FormClosedEventArgs e)
         {
-            if (threadsPool.Count > 0)
-            {
-                threadsPool.ForEach(delegate (Thread thread)
-                {
-                    thread.Abort();
-                });
-                threadsPool.Clear();
-            }
-
-            if (appThreads.Count > 0)
-            {
-                appThreads.Clear();
-            }
+            timerWeixinAppend.Stop();
         }
 
-        private void btnStartTimer_Click(object sender, EventArgs e)
+        private void startWeixin()
         {
-            btnStartTimerClick();
-        }
-        private void btnStartTimerClick()
-        {
-            clearThreadPool();
+            clearListThread();
 
-            if (!mutexHandleCloseTimer.Enabled)
-            {
-                mutexHandleCloseTimer.Stop();
-            }
-
-            btnStartTimer.Enabled = false;
-            btnStopTimer.Enabled = true;
-            btnSort.Enabled = true;
-
-            if (!mutexHandleCloseTimer.Enabled)
-            {
-                mutexHandleCloseTimer.Start();
-            }
             string appPath = PathUtil.FindInstallPathFromRegistry(WECHAT_NAME) + Path.DirectorySeparatorChar + WECHAT_EXE_NAME;
             if (!File.Exists(appPath))
             {
@@ -112,45 +72,56 @@ namespace WechatToolApp.App
                 return;
             }
 
-            appNum = (int)numericUpDown.Value;
-            for (int i = 0; i < appNum; i++)
+            for (int i = 0; i < weixinNumber; i++)
             {
-                appThreads.Add(new ProcessStartInfo(appPath));
+                listThreadStartInfo.Add(new ProcessStartInfo(appPath));
             }
-            checkAppThreads();
+            checkListThreadStartInfo();
         }
 
-        private void btnStopTimer_Click(object sender, EventArgs e)
+        private List<Thread> listThread = new List<Thread>();
+
+        private void clearListThread()
         {
-            clearThreadPool();
-            closeAllMutex();
-            mutexHandleCloseTimer.Stop();
-            btnStartTimer.Enabled = true;
-            btnStopTimer.Enabled = false;
-
-            Process[] processes = Process.GetProcessesByName(WECHAT_NAME);
-            if (processes.Length > 0)
+            if (listThread.Count > 0)
             {
-                foreach (Process p in processes)
+                listThread.ForEach(delegate (Thread thread)
                 {
-                    p.Kill();
-                }
+                    thread.Abort();
+                });
+                listThread.Clear();
             }
-            else
+
+            if (listThreadStartInfo.Count > 0)
             {
-                MessageBox.Show("当前无微信进程", "提示");
+                listThreadStartInfo.Clear();
             }
         }
 
-        private List<WechatProcess> wechatProcesses = new List<WechatProcess>();
+        List<ProcessStartInfo> listThreadStartInfo = new List<ProcessStartInfo>();
+
+        private void checkListThreadStartInfo()
+        {
+            if (listThreadStartInfo.Count > 0)
+            {
+                ProcessStartInfo thread = listThreadStartInfo[0];
+                new Thread(() =>
+                {
+                    Process.Start(thread);
+                    listThreadStartInfo.RemoveAt(0);
+                }).Start();
+            }
+        }
+
+        private List<WechatProcess> listWechatProcess = new List<WechatProcess>();
 
         private void mutexHandleCloseTimer_Tick(object sender, EventArgs e)
         {
             Process[] processes = Process.GetProcessesByName(WECHAT_NAME);
-            startNumTxt.Text = "启动数：" + processes.Length;
+            buttonStartWeixin.Text = "启动(" + processes.Length + "/" + weixinNumber + ")";
             if (processes.Length <= 0)
             {
-                btnStartTimer.Enabled = true;
+                buttonStartWeixin.Enabled = true;
                 return;
             }
 
@@ -158,25 +129,25 @@ namespace WechatToolApp.App
             foreach (Process p in processes)
             {
                 int i = 0;
-                for (i = 0; i < wechatProcesses.Count; i++)
+                for (i = 0; i < listWechatProcess.Count; i++)
                 {
-                    WechatProcess wechatProcess = wechatProcesses[i];
+                    WechatProcess wechatProcess = listWechatProcess[i];
                     if (wechatProcess.Proc.Id == p.Id)
                     {
                         break;
                     }
                 }
-                if (i == wechatProcesses.Count)
+                if (i == listWechatProcess.Count)
                 {
-                    wechatProcesses.Add(new WechatProcess(p));
+                    listWechatProcess.Add(new WechatProcess(p));
                 }
             }
 
             // 关闭所有存在互斥句柄的进程
             int num = 0;
-            for (int i = wechatProcesses.Count - 1; i >= 0; i--)
+            for (int i = listWechatProcess.Count - 1; i >= 0; i--)
             {
-                WechatProcess wechatProcess = wechatProcesses[i];
+                WechatProcess wechatProcess = listWechatProcess[i];
                 if (!wechatProcess.MutexClosed)
                 {
                     wechatProcess.MutexClosed = ProcessUtil.CloseMutexHandle(wechatProcess.Proc);
@@ -184,7 +155,7 @@ namespace WechatToolApp.App
 
                     if (wechatProcess.MutexClosed)
                     {
-                        checkAppThreads();
+                        checkListThreadStartInfo();
                     }
                 }
                 else
@@ -192,7 +163,7 @@ namespace WechatToolApp.App
                     if (wechatProcess.Proc.HasExited)
                     {
                         // 移除不存在的线程
-                        wechatProcesses.RemoveAt(i);
+                        listWechatProcess.RemoveAt(i);
                     }
                     else
                     {
@@ -200,44 +171,23 @@ namespace WechatToolApp.App
                     }
                 }
             }
-            if (appNum <= wechatProcesses.Count) 
+            if (weixinNumber <= listWechatProcess.Count) 
             {
-                if (appNum > 2)
+                if (weixinNumber > 2)
                 {
-                    btnSortClick();
+                    weixinLayoutSort();
                 }
-                else if (appNum > 0)
+                else if (weixinNumber > 0)
                 {
-                    Environment.Exit(0);
+                    //Environment.Exit(0);
+                    this.Close();
                 }
             }
         }
 
-        private void closeAllMutex()
-        {
-            startNumTxt.Text = "启动数：0";
-            Process[] processes = Process.GetProcessesByName(WECHAT_NAME);
-            ProcessUtil.CloseMutexHandle(processes);
-        }
-
-        private void FormMultiInstance_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            mutexHandleCloseTimer.Stop();
-        }
-
-        private void FormMultiInstance_Load(object sender, EventArgs e)
-        {
-            mutexHandleCloseTimer.Start();
-            btnStopTimer.Enabled = true;
-            btnStartTimerClick();
-        }
-
         private bool isSortRunning = false;
-        private void btnSort_Click(object sender, EventArgs e)
-        {
-            btnSortClick();
-        }
-        private void btnSortClick()
+
+        private void weixinLayoutSort()
         {
             Process[] processes1 = Process.GetProcessesByName(WECHAT_NAME);
             if (processes1.Length == 0)
@@ -245,19 +195,18 @@ namespace WechatToolApp.App
                 return;
             }
 
-            int realAppNum = Math.Max(appNum, processes1.Length);
+            int realAppNum = Math.Max(weixinNumber, processes1.Length);
 
             if (isSortRunning) return;
             isSortRunning = true;
-            btnSort.Enabled = false;
 
-            if (threadsPool.Count > 0)
+            if (listThread.Count > 0)
             {
-                threadsPool.ForEach(delegate (Thread thread)
+                listThread.ForEach(delegate (Thread thread)
                 {
                     thread.Abort();
                 });
-                threadsPool.Clear();
+                listThread.Clear();
             }
 
             Thread startThread = new Thread(() =>
@@ -323,18 +272,15 @@ namespace WechatToolApp.App
                         if (flag)
                         {
                             isSortRunning = false;
-                            Action<bool> AsyncUIDelegate = delegate (bool enable) {
-                                btnSort.Enabled = enable;
-                            };
-                            btnSort.Invoke(AsyncUIDelegate, new object[] { true });
-                            Environment.Exit(0);
+                            //Environment.Exit(0);
+                            this.Close();
                             break;
                         }
                     }
                 }
             });
             startThread.Start();
-            threadsPool.Add(startThread);
+            listThread.Add(startThread);
         }
     }
 }
