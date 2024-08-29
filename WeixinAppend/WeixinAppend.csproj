@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{73043CA8-AF54-4591-9174-40FB6E0A3D36}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WechatToolApp</RootNamespace>
-    <AssemblyName>WechatToolApp</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <RootNamespace>Com.Youlaiyouqu.WeixinAppend</RootNamespace>
+    <AssemblyName>微信加开</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />

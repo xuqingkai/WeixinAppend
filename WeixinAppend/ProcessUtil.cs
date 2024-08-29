@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WechatToolApp.App
+namespace Com.Youlaiyouqu.WeixinAppend
 {
     /// <summary>
     /// 微信多开原理：

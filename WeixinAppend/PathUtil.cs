@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace WechatToolApp.App
+namespace Com.Youlaiyouqu.WeixinAppend
 {
     public class PathUtil
     {

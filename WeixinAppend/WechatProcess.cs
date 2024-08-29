@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace WechatToolApp.App
+namespace Com.Youlaiyouqu.WeixinAppend
 {
     public class WechatProcess
     {

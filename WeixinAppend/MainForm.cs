@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace WechatToolApp.App
+namespace Com.Youlaiyouqu.WeixinAppend
 {
     public partial class MainForm : Form
     {
@@ -51,7 +51,8 @@ namespace WechatToolApp.App
         private void FormMultiInstance_Load(object sender, EventArgs e)
         {
             weixinNumber = Math.Abs(Convert.ToInt32(ConfigurationManager.AppSettings["WeixinNumber"]));
-            buttonStartWeixin.Text = "启动(0/" + weixinNumber + ")";
+            numericUpDown.Value = weixinNumber;
+            buttonStartWeixin.Text = "启 动(0)";
             timerWeixinAppend.Start();
             startWeixin();
         }
@@ -68,10 +69,14 @@ namespace WechatToolApp.App
             string appPath = PathUtil.FindInstallPathFromRegistry(WECHAT_NAME) + Path.DirectorySeparatorChar + WECHAT_EXE_NAME;
             if (!File.Exists(appPath))
             {
-                MessageBox.Show("请先安装微信桌面App", "提示");
+                MessageBox.Show("请先安装微信客户端");
                 return;
             }
-
+            Process[] processes = Process.GetProcessesByName(WECHAT_NAME);
+            if (processes.Length > 0)
+            {
+                weixinNumber = 1;
+            }
             for (int i = 0; i < weixinNumber; i++)
             {
                 listThreadStartInfo.Add(new ProcessStartInfo(appPath));
@@ -118,7 +123,7 @@ namespace WechatToolApp.App
         private void mutexHandleCloseTimer_Tick(object sender, EventArgs e)
         {
             Process[] processes = Process.GetProcessesByName(WECHAT_NAME);
-            buttonStartWeixin.Text = "启动(" + processes.Length + "/" + weixinNumber + ")";
+            buttonStartWeixin.Text = "启 动(" + processes.Length + ")";
             if (processes.Length <= 0)
             {
                 buttonStartWeixin.Enabled = true;
@@ -173,11 +178,11 @@ namespace WechatToolApp.App
             }
             if (weixinNumber <= listWechatProcess.Count) 
             {
-                if (weixinNumber > 2)
+                if (weixinNumber >= 2)
                 {
                     weixinLayoutSort();
                 }
-                else if (weixinNumber > 0)
+                else if (weixinNumber >= 1)
                 {
                     //Environment.Exit(0);
                     this.Close();
@@ -273,7 +278,11 @@ namespace WechatToolApp.App
                         {
                             isSortRunning = false;
                             //Environment.Exit(0);
-                            this.Close();
+                            
+                            Action<bool> AsyncUIDelegate = delegate (bool enable) {
+                                this.Close();
+                            };
+                            buttonStartWeixin.Invoke(AsyncUIDelegate, new object[] { true });
                             break;
                         }
                     }
@@ -281,6 +290,16 @@ namespace WechatToolApp.App
             });
             startThread.Start();
             listThread.Add(startThread);
+        }
+
+        private void buttonStartWeixin_Click(object sender, EventArgs e)
+        {
+            startWeixin();
+        }
+
+        private void numericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            weixinNumber = Convert.ToInt32(numericUpDown.Value);
         }
     }
 }
