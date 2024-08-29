@@ -40,7 +40,7 @@
             // timerWeixinAppend
             // 
             this.timerWeixinAppend.Interval = 500;
-            this.timerWeixinAppend.Tick += new System.EventHandler(this.mutexHandleCloseTimer_Tick);
+            this.timerWeixinAppend.Tick += new System.EventHandler(this.TryWeixinAppend);
             // 
             // buttonStartWeixin
             // 

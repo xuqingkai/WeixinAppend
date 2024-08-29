@@ -51,10 +51,22 @@ namespace Com.Youlaiyouqu.WeixinAppend
         private void FormMultiInstance_Load(object sender, EventArgs e)
         {
             weixinNumber = Math.Abs(Convert.ToInt32(ConfigurationManager.AppSettings["WeixinNumber"]));
+
+            if (weixinNumber >=1 && Process.GetProcessesByName(WECHAT_NAME).Length >= 1)
+            {
+                weixinNumber = 1;
+            }
             numericUpDown.Value = weixinNumber;
+
+
             buttonStartWeixin.Text = "启 动(0)";
+
             timerWeixinAppend.Start();
-            startWeixin();
+            if (weixinNumber >= 1) 
+            {
+                startWeixin();
+            }
+            
         }
 
         private void FormMultiInstance_Close(object sender, FormClosedEventArgs e)
@@ -72,11 +84,8 @@ namespace Com.Youlaiyouqu.WeixinAppend
                 MessageBox.Show("请先安装微信客户端");
                 return;
             }
-            Process[] processes = Process.GetProcessesByName(WECHAT_NAME);
-            if (processes.Length > 0)
-            {
-                weixinNumber = 1;
-            }
+
+            weixinNumber = Convert.ToInt32(numericUpDown.Value);
             for (int i = 0; i < weixinNumber; i++)
             {
                 listThreadStartInfo.Add(new ProcessStartInfo(appPath));
@@ -120,7 +129,7 @@ namespace Com.Youlaiyouqu.WeixinAppend
 
         private List<WechatProcess> listWechatProcess = new List<WechatProcess>();
 
-        private void mutexHandleCloseTimer_Tick(object sender, EventArgs e)
+        private void TryWeixinAppend(object sender, EventArgs e)
         {
             Process[] processes = Process.GetProcessesByName(WECHAT_NAME);
             buttonStartWeixin.Text = "启 动(" + processes.Length + ")";
@@ -294,11 +303,13 @@ namespace Com.Youlaiyouqu.WeixinAppend
 
         private void buttonStartWeixin_Click(object sender, EventArgs e)
         {
+            timerWeixinAppend.Start();
             startWeixin();
         }
 
         private void numericUpDown_ValueChanged(object sender, EventArgs e)
         {
+            timerWeixinAppend.Stop();
             weixinNumber = Convert.ToInt32(numericUpDown.Value);
         }
     }
