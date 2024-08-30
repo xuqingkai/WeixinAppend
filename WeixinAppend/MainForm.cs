@@ -266,7 +266,9 @@ namespace Com.Youlaiyouqu.WeixinAppend
                         int itemW = maxW + 5;
                         int itemH = maxH + 5;
                         int column = screenW / itemW;
+                        int left = (screenW - (hashtable.Count >= column? column : hashtable.Count) * itemW) / 2;
                         int row = screenH / itemH;
+                        int top = (screenH - row * itemH) / 2;
 
                         i = 0;
                         foreach (DictionaryEntry entry in hashtable)
@@ -276,8 +278,8 @@ namespace Com.Youlaiyouqu.WeixinAppend
                                 i = 0;
                             }
                             Process process = (Process)entry.Value;
-                            int initX = (i % column) * itemW;
-                            int initY = (i / column) * itemH;
+                            int initX = (i % column) * itemW + left;
+                            int initY = (i / column) * itemH + top;
 
                             SetWindowPos(process.MainWindowHandle, 0, initX, initY, 0, 0, 1); //简单解释下就是第一个参数为你要控制的窗口，最后一个参数为控制位置生效还是大小生效等
                             i += 1;
@@ -289,7 +291,8 @@ namespace Com.Youlaiyouqu.WeixinAppend
                             //Environment.Exit(0);
                             
                             Action<bool> AsyncUIDelegate = delegate (bool enable) {
-                                this.Close();
+                                this.Text = row + "/" + top;
+                                //this.Close();
                             };
                             buttonStartWeixin.Invoke(AsyncUIDelegate, new object[] { true });
                             break;
