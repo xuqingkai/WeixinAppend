@@ -81,8 +81,7 @@ namespace Com.Youlaiyouqu.WeixinAppend
             string appPath = PathUtil.FindInstallPathFromRegistry(WECHAT_NAME) + Path.DirectorySeparatorChar + WECHAT_EXE_NAME;
             if (!File.Exists(appPath))
             {
-                MessageBox.Show("请先安装微信客户端");
-                return;
+                MessageBox.Show("检测到未安装微信，可能是注册表信息丢失，建议重新下载并安装一次。继续下一步可能出现异常。");
             }
 
             weixinNumber = Convert.ToInt32(numericUpDown.Value);
