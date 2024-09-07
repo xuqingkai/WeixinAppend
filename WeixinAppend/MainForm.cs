@@ -50,7 +50,20 @@ namespace Com.Youlaiyouqu.WeixinAppend
 
         private void FormMultiInstance_Load(object sender, EventArgs e)
         {
-            weixinNumber = Math.Abs(Convert.ToInt32(ConfigurationManager.AppSettings["WeixinNumber"]));
+            string executablePath = System.Windows.Forms.Application.ExecutablePath;
+            executablePath = executablePath.Substring(executablePath.LastIndexOf("\\") + 1);
+            string number = new System.Text.RegularExpressions.Regex(@"\d+").Match(executablePath).Value;
+            number = ConfigurationManager.AppSettings["WeixinNumber"] ?? number;
+
+            if (!string.IsNullOrEmpty(number))
+            {
+                Int32.TryParse(number, out weixinNumber);
+                weixinNumber = Math.Abs(weixinNumber);
+            }
+            else 
+            {
+                weixinNumber = 1;
+            }
 
             if (weixinNumber >=1 && Process.GetProcessesByName(WECHAT_NAME).Length >= 1)
             {
@@ -290,8 +303,7 @@ namespace Com.Youlaiyouqu.WeixinAppend
                             //Environment.Exit(0);
                             
                             Action<bool> AsyncUIDelegate = delegate (bool enable) {
-                                this.Text = row + "/" + top;
-                                //this.Close();
+                                this.Close();
                             };
                             buttonStartWeixin.Invoke(AsyncUIDelegate, new object[] { true });
                             break;
